@@ -35,7 +35,7 @@ function YouTubeAudio(options) {
     return result;
   }
 
-  function triggerHandlers(name, event) {
+  function triggerHandlers(yta, name, event) {
     name = '_' + name + 'Callbacks';
     (yta[name] = yta[name] || []).forEach(function(callback) {
       try {
@@ -49,7 +49,6 @@ function YouTubeAudio(options) {
   
   function addAudio(yta, options) {
     var currentVideoId = null;
-
     yta._videoIds = options.sources.map(YTA.parseVideoId);
   
     if (options.shuffle) {
@@ -83,28 +82,28 @@ function YouTubeAudio(options) {
       events: {
         onReady: function(event) {
           yta._isReady = true;
-          triggerHandlers('ready', event);
+          triggerHandlers(yta, 'ready', event);
         },
         onStateChange: function(event) {
           if (YouTube.PlayerState.PLAYING == event.data) {
-            triggerHandlers('playing', event);
+            triggerHandlers(yta, 'playing', event);
             var newVideoId = yta._player.getVideoData().video_id;
             if (newVideoId !== currentVideoId) {
               currentVideoId = newVideoId;
-              triggerHandlers('start', event);
+              triggerHandlers(yta, 'start', event);
             }
           }
           else if (YouTube.PlayerState.PAUSED == event.data) {
-            triggerHandlers('pause', event);
+            triggerHandlers(yta, 'pause', event);
           }
           else if (YouTube.PlayerState.ENDED == event.data) {
-            triggerHandlers('end', event);
+            triggerHandlers(yta, 'end', event);
             if (yta._loop) {
               yta.playNext();
             }
           }
 
-          triggerHandlers('stateChange', event);
+          triggerHandlers(yta, 'stateChange', event);
         }
       }
     });
