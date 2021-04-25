@@ -1,4 +1,9 @@
-// https://developers.google.com/youtube/iframe_api_reference
+/**
+ * @license Copyright 2021 - Chris West - MIT Licensed
+ * @see https://github.com/westc/youtube-audio-bg/
+ * @see https://developers.google.com/youtube/iframe_api_reference
+ * Provides a way to embed YouTube on a web page and just play the audio.
+ */
 (function() {
   class YouTubeAudio {
     /**
